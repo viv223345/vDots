@@ -6,7 +6,6 @@
   <img src="media/screenshots/blackMonterey.webp" height="200">
   <img src="media/screenshots/blueGlowRoad.webp" height="200">
   <img src="media/screenshots/blueMojave.webp" height="200">
-  <img src="media/screenshots/cucamongaLightTiled.webp" height="200">
   <img src="media/screenshots/goldenDusk.webp" height="200">
   <img src="media/screenshots/goldenDuskTiled.webp" height="200">
   <img src="media/screenshots/greenPrarie.webp" height="200">
@@ -17,7 +16,7 @@
   <img src="media/screenshots/volcanicMoon.webp" height="200">
 </div>
 
-#### [Wallpapers](media/wallpapers/)
+### [Wallpapers](media/wallpapers/)
 
 ## Dependencies
 - hyprland
