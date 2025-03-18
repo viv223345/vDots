@@ -1,0 +1,6 @@
+#!/bin/bash
+{
+	dark
+	sudo tlp ac
+	brightnessctl --device=intel_backlight s 19200
+} > /dev/null

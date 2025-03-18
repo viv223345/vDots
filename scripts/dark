@@ -1,0 +1,11 @@
+#!/bin/bash
+{
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+	wal -i "$(cat ~/.cache/wal/wal)" -qn --cols16
+	pywalfox dark
+	pywalfox update
+	swaync-client -rs
+	hyprctl setcursor Bibata-Modern-Classic 24
+	notify-send "Nox."
+	echo "dark" > ~/.cache/wal/laststate
+} > /dev/null

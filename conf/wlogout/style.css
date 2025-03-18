@@ -1,0 +1,56 @@
+@import "/home/viv223345/.cache/wal/colors-waybar.css";
+
+* {
+	background-image: none;
+	box-shadow: none;
+	font-family: rubik;
+	font-size: 28px;
+}
+
+window {
+	background-color: rgba(0, 0, 0, 0.55);
+}
+
+button {
+	margin: 16px;
+    border-radius: 16px;
+    border-color: @color15;
+	text-decoration-color: @color4;
+    color: @color15;
+	background-color: @background;
+	border-style: solid;
+	border-width: 2px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 15%;
+	box-shadow: none;
+	text-shadow: none;
+}
+
+button:focus, button:active {
+	background-color: @color4;
+	outline-style: none;
+    border-color: @background;
+    background-size: 12%;
+    border-radius: 24px;
+}
+
+/* button:hover {
+	background-size: 18%;
+} */
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+}

@@ -1,0 +1,11 @@
+#!/bin/bash
+{
+	gsettings set org.gnome.desktop.interface color-scheme prefer-light
+	wal -i "$(cat ~/.cache/wal/wal)" -lqn --cols16
+	pywalfox light
+	pywalfox update
+	swaync-client -rs
+	hyprctl setcursor Bibata-Modern-Ice 24
+	notify-send "Lumos!"
+	echo "light" > ~/.cache/wal/laststate
+} > /dev/null

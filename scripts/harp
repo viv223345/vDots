@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Define variables
+PLAIN_DIR="$HOME/plain"
+CRYPT_DIR="$HOME/.harpocrates"
+
+# Check for arguments
+if [ "$#" -lt 1 ]; then
+  echo "Usage: $0 start|stop"
+  exit 1
+fi
+
+case "$1" in
+  start)
+    # Create the plain directory
+    mkdir -p "$PLAIN_DIR"
+
+    # Mount the encrypted directory using gocryptfs
+    gocryptfs "$CRYPT_DIR" "$PLAIN_DIR"
+
+    # Open the plain directory in the file manager
+    # xdg-open "$PLAIN_DIR" &
+    ;;
+
+  stop)
+    # Unmount the plain directory
+    fusermount -u "$PLAIN_DIR" || umount "$PLAIN_DIR"
+
+    # Remove the plain directory
+    rmdir "$PLAIN_DIR"
+    ;;
+
+  *)
+    echo "Invalid argument. Use 'start' or 'stop'."
+    exit 1
+    ;;
+esac
+

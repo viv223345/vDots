@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Check if running as root
+if [ "$EUID" -ne 0 ]; then
+    sudo -v || { echo "failed. run as root."; exit 1; }
+fi
+
+# Change this to the interface you would like to use for the beacon
+DEVICE=wlp63s0
+
+# Kill processes that may interfere
+sudo airmon-ng check kill
+
+# Start monitor mode
+sudo airmon-ng start $DEVICE
+
+# Assign monitor interface name to variable
+mon=$DEVICE\mon
+
+# Start beacon
+printf "rickbeacon started."
+sudo mdk3 $mon b -c 1 -h -s 900 -f $HOME/.config/rickbeacon/rickbeacon.list
+
+# Cleanup
+cleanup() {
+	printf "rickbeacon stopped. disabling monitor mode for $1."
+	sudo airmon-ng stop $mon
+	sudo systemctl start NetworkManager
+}
+
+# Run cleanup() on exit
+trap cleanup EXIT

@@ -1,0 +1,6 @@
+#!/bin/bash
+{
+	light
+	brightnessctl set 1920
+	sudo tlp bat
+} > /dev/null

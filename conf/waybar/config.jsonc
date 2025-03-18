@@ -1,0 +1,176 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "position": "top",
+    "height": 35, // Remove for auto height
+    "width": 1920,
+    // "margin-top": 5,
+    "spacing": 5, // Gaps between modules (4px)
+    
+    "modules-left": [
+        "hyprland/workspaces",
+        "hyprland/submap",
+		"mpris"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "idle_inhibitor",
+        "backlight",
+        "pulseaudio",
+        // "backlight/slider",
+        "keyboard-state",
+        "network",
+        "bluetooth",
+        "battery",
+        "clock",
+        // "custom/power",
+        "tray"
+    ],
+    // Modules configuration
+    "hyprland/window": {
+    	"rewrite": {
+    	    "": "Desktop"
+    	  }
+    },
+    "hyprland/workspaces": {
+         "disable-scroll": false,
+         "all-outputs": true,
+         "warp-on-scroll": true,
+         "format": "{icon}",
+         "on-scroll-up": "hyprctl dispatch workspace e-1",
+         "on-scroll-down": "hyprctl dispatch workspace e+1",
+         "format-icons": {
+         	 // Uncomment and add {icon} to "format" above to use icons in workspace indicator
+             // "1": "",
+             // "2": "",
+             // "3": "",
+             // "4": "",
+             // "5": "",
+             "urgent": "",
+             "active": "",
+             "default": ""
+         }
+     },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "hyprland/submap": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "timezone": "Asia/Dubai",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<small>{calendar}</small>",
+        "format-alt": "{:%d/%m/%Y}"
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon}",
+        "tooltip-format": "{percent}%",
+        "reverse-scrolling": 1,
+        "on-click": "$HOME/.config/waybar/modules/brightness_toggle.sh",
+        // "on-middle-click": "hyprsunset",
+		"format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"]	
+	},
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": "",
+        "tooltip-format": "{ifname} via {gwaddr}\n{essid}",
+        "tooltip-format-disconnected": "disabled",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "alt",
+        "on-click": "wifi toggle"
+    },
+    "pulseaudio": {
+        "scroll-step": 5, // %, can be a float
+        "reverse-scrolling": 1,
+        "max-volume": 100,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-middle": "pavucontrol"
+    },
+    "custom/power": {
+        "format" : "⏻ ",
+        "on-click": "wlogout",
+		"tooltip": false,
+	},
+	"backlight/slider": {
+	    "min": 0,
+	    "max": 100,
+	    "orientation": "horizontal",
+	    "device": "intel_backlight"
+	},
+	"bluetooth": {
+		"format": "{icon}",
+		"format-icons": {
+			"disabled": " x",
+			"enabled": ""
+		},
+		"tooltip": true,
+		"tooltip-format": "{device_enumerate}",
+		"on-click": "bluetooth toggle"
+	},
+	"mpris": {
+		"format": "{status_icon} {title} {player_icon}",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "on-click-middle": "playerctl previous",
+        "player-icons": {
+        	"default": "▶",
+        	"spotify": " "
+        },
+        "ignored-players": ["firefox"],
+        "status-icons": {
+        	"paused": "▶",
+        	"playing": "⏸"
+        }
+	}
+}

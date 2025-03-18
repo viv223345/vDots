@@ -1,0 +1,70 @@
+@import "/home/viv223345/.cache/wal/colors-waybar.css";
+
+* {
+    font-family: rubik;
+    border-radius: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+window {
+    background-color: @color9;
+    border-radius: 10px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+#input {
+    margin: 8px;
+    background-color: @color8;
+    color: white;
+    border: 1px solid @color6;
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+#outer-box {
+    margin: 10px;
+    padding: 8px;
+    background-color: @color1;
+    opacity: 0.95;
+    border: 1px solid @color7;
+}
+
+#scroll {
+    margin: 6px;
+    opacity: 1;
+    background-color: @color8;
+    border-radius: 6px;
+}
+
+#text {
+    padding: 6px;
+    padding-left: 24px;
+    color: @color7;
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+#entry {
+    margin: 3px 6px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background-color: @color1;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#entry:hover {
+    background-color: @color3;
+}
+
+#entry:selected {
+    background-color: @color2;
+    outline: none;
+}
+
+#text:selected {
+    color: @color15;
+    font-weight: bold;
+}

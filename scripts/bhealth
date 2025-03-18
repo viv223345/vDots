@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ "$1" == "on" ]]; then
+    echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode
+    notify-send "Battery Limiter: On"
+elif [[ "$1" == "off" ]]; then
+    echo 0 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode
+    notify-send "Battery Limiter: Off"
+else
+    echo "Usage: bhealth on|off"
+    exit 1
+fi
