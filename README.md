@@ -30,6 +30,7 @@
 - waypaper
 - wlogout
 - brightnessctl
+- swww
 
 ## Installation
 ```
