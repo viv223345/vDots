@@ -1,8 +1,9 @@
 #!/bin/bash
-
 # Define variables
-PLAIN_DIR="$HOME/plain"
+PLAIN_DIR="$HOME/judas"
 CRYPT_DIR="$HOME/.harpocrates"
+LOG_FILE="$PLAIN_DIR/.harp/harp.log"
+ERR_CACHE="$HOME/.cache/.harp"
 
 # Check for arguments
 if [ "$#" -lt 1 ]; then
@@ -12,27 +13,94 @@ fi
 
 case "$1" in
   start)
-    # Create the plain directory
-    mkdir -p "$PLAIN_DIR"
+    # Check if the directory exists
+    if [ -d "$PLAIN_DIR" ]; then
+      # Check if the directory is already mounted
+      if mountpoint -q "$PLAIN_DIR"; then
+        echo "Directory is already mounted."
+        xdg-open "$PLAIN_DIR" &
+        exit 0
+      fi
+      
+      # Check if directory is empty
+      if [ "$(ls -A "$PLAIN_DIR" 2>/dev/null)" ]; then
+        echo "Error: Mount point $PLAIN_DIR is not empty. Please remove contents or use a different directory."
+        exit 1
+      fi
+    else
+      # Create the plain directory if it doesn't exist
+      mkdir -p "$PLAIN_DIR"
+    fi
 
+    # Create necessary directories for logs and cache
+    mkdir -p "$ERR_CACHE/cam"
+    
     # Mount the encrypted directory using gocryptfs
-    gocryptfs "$CRYPT_DIR" "$PLAIN_DIR"
-
-    # Open the plain directory in the file manager
-    # xdg-open "$PLAIN_DIR" &
+    if gocryptfs "$CRYPT_DIR" "$PLAIN_DIR"; then
+      # Create directories inside the mounted filesystem
+      mkdir -p "$PLAIN_DIR/.harp/captures"
+      
+      # Add the failed logs, move captured images, and start time if mounting was successful
+      if [ -f "$ERR_CACHE/fail.log" ]; then
+        mkdir -p "$(dirname "$LOG_FILE")"
+        cat "$ERR_CACHE/fail.log" >> "$LOG_FILE"
+        rm "$ERR_CACHE/fail.log"
+      fi
+      
+      # Move any captures if they exist
+      if [ "$(ls -A "$ERR_CACHE/cam/" 2>/dev/null)" ]; then
+        mkdir -p "$PLAIN_DIR/.harp/captures"
+        mv "$ERR_CACHE/cam/"* "$PLAIN_DIR/.harp/captures/" 2>/dev/null
+      fi
+      
+      # Log the start time
+      mkdir -p "$(dirname "$LOG_FILE")"
+      echo "$(date): Started." >> "$LOG_FILE"
+      
+      # Open the plain directory in the file manager
+      nemo "$PLAIN_DIR" &
+    else
+      # Create error cache directory if it doesn't exist
+      mkdir -p "$ERR_CACHE/cam"
+      
+      # Log failed access attempt
+      echo "$(date): Failed." >> "$ERR_CACHE/fail.log"
+      
+      # Capture image if webcam exists
+      if [ -e "/dev/video0" ]; then
+        ffmpeg -f video4linux2 -s 1280x720 -i /dev/video0 -ss 0:0:1 -frames:v 1 "$ERR_CACHE/cam/$(date +%Y%m%d_%H%M%S).jpg" 2>/dev/null
+      fi
+      
+      # Clean up the directory since mounting failed
+      if [ -d "$PLAIN_DIR" ] && [ -z "$(ls -A "$PLAIN_DIR" 2>/dev/null)" ]; then
+        rmdir "$PLAIN_DIR" 2>/dev/null
+      fi
+    fi
     ;;
-
+    
   stop)
-    # Unmount the plain directory
-    fusermount -u "$PLAIN_DIR" || umount "$PLAIN_DIR"
-
-    # Remove the plain directory
-    rmdir "$PLAIN_DIR"
+    # Check if directory is mounted before trying to log
+    if mountpoint -q "$PLAIN_DIR"; then
+      # Ensure the log directory exists
+      mkdir -p "$(dirname "$LOG_FILE")"
+      
+      # Log the stop time
+      echo "$(date): Stopped." >> "$LOG_FILE"
+      
+      # Unmount the plain directory
+      fusermount -u "$PLAIN_DIR" || umount "$PLAIN_DIR"
+    else
+      echo "Directory not mounted."
+    fi
+    
+    # Remove the plain directory if it exists and is empty
+    if [ -d "$PLAIN_DIR" ] && [ -z "$(ls -A "$PLAIN_DIR" 2>/dev/null)" ]; then
+      rmdir "$PLAIN_DIR" 2>/dev/null
+    fi
     ;;
-
+    
   *)
     echo "Invalid argument. Use 'start' or 'stop'."
     exit 1
     ;;
 esac
-
