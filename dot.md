@@ -18,23 +18,6 @@ A tool that comes in handy when managing your dotfiles.
 - Easy installation and configuration
 - Makes managing and editing dotfiles easier
 
-## Installation
-
-### Quick Install
-
-```bash
-git clone https://github.com/yourusername/dot.git
-cd dot
-chmod +x dot
-./dot install
-```
-
-### Manual Setup
-
-1. Clone this repository
-2. Make the script executable: `chmod +x dot`
-3. Create symlinks manually: `./dot make`
-
 ## Usage
 
 ```
