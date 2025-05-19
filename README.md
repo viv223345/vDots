@@ -34,9 +34,9 @@
 
 ## Installation
 ```
-git clone https://github.com/viv223345/dots.git  # Clone repository
-cd dots                                          # Open directory
-sudo ./dot make                                  # Install dots
+git clone https://github.com/viv223345/vDots.git  # Clone repository
+cd vDots                                          # Open directory
+sudo ./dot make                                   # Install dots
 ```
 # [Dot](dot)
 A tool that will comes in handy when managing your dotfiles - even if it's not vDots :)
